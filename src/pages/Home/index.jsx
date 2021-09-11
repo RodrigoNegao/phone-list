@@ -1,53 +1,71 @@
 import React, { useState, useEffect } from "react";
+import { nanoid } from "nanoid";
 import { Container, Grid, Typography } from "@material-ui/core";
 import useStyles from "./style";
 import Todo from "../../components/Todo";
 import Form from "../../components/Form";
 import FilterBox from "../../components/FilterBox";
 
-const DATA = [
-  { name: "Model 1" }, //, checked: true
-];
-
 export default function Home() {
   const classes = useStyles();
 
-  const [value, setValue] = useState("");
+  const [title, setTitle] = useState("");
   const [tasks, setTask] = useState([]);
 
-  const taskList = tasks.map((task) => <Todo name={task.name} />);
+  const taskList = tasks.map((task) => <Todo id={task.id} name={task.name} />);
 
-  function addTask(value) {
-    const newTask = { name: value };
+  function addTask(title) {
+    const newTask = { id: "todo-" + nanoid(), name: title };
     setTask([...tasks, newTask]);
   }
 
-  const handleChange = (e) => {
-    setValue(e.target.value);
-    console.log("1", value);
+  console.log('tasks>>',tasks)
+
+  const handleChange = (e) => {  
+    setTitle(e.target.value);
+    console.log("1", title);
   };
 
-  function handleKeyPress(e) {
+  const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      addTask(value);
-      console.log("2", value);
+      e.preventDefault();
+      addTask(title);
+      console.log("2", title);
     }
   }
 
-  function handleClick() {
-    addTask(value);
-    console.log("3", value);
+  const handleClick = (e) => {
+    e.preventDefault();
+    addTask(title);
+    console.log("3", title);
   }
 
-  useEffect(() => {
-    setTask(taskList);
-  }, [value]);
+
+  // const markup = useCallback(
+  //   (count) => {
+  //     const stringCountCorrection = count + 1;
+  //     return (
+  //       // Some markup that references the sections prop
+  //     );
+  //   },
+  //   [count, /* and any other dependencies the react linter suggests */]
+  // );
+
+  // useEffect(() => {
+  //   setTask(taskList);
+  // },[title]);
+
+  // useEffect(() => {
+  //   if (taskList.length) {
+  //       setTask(taskList);   // YOU CAN USE IT TO SET SOME OTHER STATE
+  //    }    
+  // },[title,taskList]);
 
   return (
     <Container fixed>
       <Grid>
         <Form
-          value={value}
+          value={title}
           onKeyPress={handleKeyPress}
           onChange={handleChange}
           onClick={handleClick}
