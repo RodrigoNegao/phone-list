@@ -12,7 +12,7 @@ import FolderIcon from "@material-ui/icons/Folder";
 import useStyles from "./style";
 
 export default function Todo(props) {
-  const { dense, name } = props;
+  const { id, name } = props;
   const classes = useStyles();
 
   const [checked, setChecked] = React.useState(false);
@@ -23,7 +23,7 @@ export default function Todo(props) {
 
   return (
     <>
-      <ListItem className={classes.root} id={name} key={name}>
+      <ListItem className={classes.root} id={id} key={id}>
         <Checkbox checked={checked} onChange={handleChange} />
         <ListItemIcon>
           <FolderIcon />
